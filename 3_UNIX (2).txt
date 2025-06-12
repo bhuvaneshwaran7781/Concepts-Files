@@ -1,0 +1,236 @@
+UNIX:
+-----
+
+  Unix is an OS developed at Bell Labs in the mid 1960s.
+it is father of all modern os
+
+
+   commands:
+     1)date -- tue 06 oct 2021 11:11:06 AM PDT
+     2)ncal - new calender (current months calender)(vertical)
+     3)cal - calender(horizontal)
+     4)clear - clear cmd
+     5)echo hi - hi
+     6)ncal july 1969
+    
+     7) sort colors.txt  - file content sorted in alphabetical order
+     8) rm - remove files and direcoty
+
+     9)ncal -h (not highlithgt today)
+     10)ncal -3 : previous,cureent and next month
+     11)ncal -3h :combines both 9 and 10
+     12)sort colors.tct --reverse (or) sort colrs.txt -r
+     13)sort colors.txt --unique (or) sort colors.txt -u
+      14)ncal -A1 (one month after)
+     15)ncal -B3(three months before)
+
+
+Navigation:  
+
+    1)root directory - starting point of all file system -/
+    2)/home - contains a home folder for each files
+    
+   commands of navigaton:
+    1)pwd - print working directory
+    2)ls - list commands of a directory 
+    3)ls filename - list the content of the file(filename)
+    4)ls -l : print list in long listing formats with size information
+    5)cd - change directory
+    6)cd.. - back to one level
+    7)cd filename/  - go to mentioned file
+
+Step 1: Create a Directory Structure
+First, let's create a directory structure to work with:
+
+mkdir -p my_project/{docs,src,bin}
+This command creates a my_project directory with three subdirectories: docs, src, and bin.
+
+Section 3: Command Basics
+List files and directories:
+
+ls my_project
+This lists the contents of the my_project directory.
+
+Print the current working directory:
+
+pwd
+This prints the path of the current directory.
+
+Change directory:
+
+cd my_project/src
+This changes the current directory to src.
+
+Section 4: Getting Help
+Manual page for a command:
+
+man ls
+This displays the manual page for the ls command.
+
+Help message for a command:
+
+ls --help
+This provides a brief help message for the ls command.
+
+Section 5: Navigation
+Change to a specific directory:
+
+cd my_project/docs
+This changes to the docs directory.
+
+List all files, including hidden ones:
+
+ls -a my_project
+This lists all files in my_project, including hidden ones.
+
+Section 6: Creating Files & Folders
+Create an empty file:
+
+touch my_project/docs/readme.txt
+This creates an empty file named readme.txt in the docs directory.
+
+Create a new directory:
+
+mkdir my_project/logs
+This creates a new directory named logs in my_project.
+
+
+
+
+
+
+Section 8: Deleting, Copying, & Moving
+Delete a file:
+
+rm my_project/docs/readme.txt
+This deletes the readme.txt file.
+
+Copy a file:
+
+cp my_project/src/main.c my_project/bin/
+This copies main.c from src to bin.
+
+Move or rename a file:
+
+mv my_project/bin/main.c my_project/bin/main_backup.c
+This renames main.c to main_backup.c.
+
+Section 10: Working With Files
+Display the content of a file:
+
+cat my_project/src/main.c
+This displays the content of main.c.
+
+Open a file in the nano text editor:
+
+nano my_project/src/main.c
+This opens main.c in the nano text editor.
+
+Section 11: Redirection
+Redirect output to a file:
+
+ls my_project > my_project/file_list.txt
+This redirects the output of ls to file_list.txt.
+
+Use a file as input for a command:
+
+cat < my_project/file_list.txt
+This uses file_list.txt as input for cat.
+
+Section 12: Piping
+Combine commands using pipes:
+ls my_project | grep src
+This uses the output of ls as input for grep to search for src.
+Section 14: Finding Things
+Search for a file by name:
+
+find my_project -name main.c
+This searches for main.c in my_project.
+
+Find files by name using a database:
+
+locate main.c
+This finds files named main.c using a database.
+
+Section 15: Grep
+Search for a pattern in a file:
+grep 'int main' my_project/src/main.c
+This searches for the pattern int main in main.c.
+Section 16: Permissions Basics
+List files with their permissions:
+
+ls -l my_project
+This lists files in my_project with their permissions.
+
+Change the permissions of a file:
+
+chmod 755 my_project/src/main.c
+This changes the permissions of main.c.
+
+Section 17: Altering Permissions
+Change the owner and group of a file:
+chown user:group my_project/src/main.c
+This changes the owner and group of main.c.
+
+
+Symbolic Notation
+Symbolic notation uses letters to represent permissions:
+
+r: Read
+w: Write
+x: Execute
+Permissions are grouped into three categories:
+
+Owner (user)
+Group
+Others
+For example, -rwxr-xr-x means:
+
+Owner: rwx (read, write, execute)
+Group: r-x (read, execute)
+Others: r-x (read, execute)
+Octal Notation
+Octal notation uses numbers to represent permissions:
+
+4: Read
+2: Write
+1: Execute
+Permissions are summed for each category:
+
+Owner: rwx = 4 (read) + 2 (write) + 1 (execute) = 7
+Group: r-x = 4 (read) + 0 (write) + 1 (execute) = 5
+Others: r-x = 4 (read) + 0 (write) + 1 (execute) = 5
+So, -rwxr-xr-x translates to 755 in octal notation12.
+
+Examples
+Symbolic: -rw-r--r--
+
+Owner: rw- = 4 (read) + 2 (write) = 6
+Group: r-- = 4 (read) = 4
+Others: r-- = 4 (read) = 4
+Octal: 644
+Symbolic: -rwx------
+
+Owner: rwx = 4 (read) + 2 (write) + 1 (execute) = 7
+Group: --- = 0
+Others: --- = 0
+Octal: 700
+
+
+
+To display lines from the file teknoscript.txt that do not contain the string "lin", you can use the grep command with the -v option. The -v option inverts the match, showing lines that do not match the specified pattern.
+
+Here's the command you can use:
+
+grep -v "lin" teknoscript.txt
+This command will search through teknoscript.txt and display all lines that do not contain the string "lin".
+
+
+------------------------------------------------------------------
+
+Write a command to list all the file names starting with "t" or "s" in the current directory.
+
+ans : ls [ts]*
+
+
+
