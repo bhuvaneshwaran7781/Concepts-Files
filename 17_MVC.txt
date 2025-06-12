@@ -1,0 +1,512 @@
+
+
+## ✅ 1. **Spring MVC Architecture (Simplified)**
+
+Spring MVC stands for **Model-View-Controller**:
+
+### ▶️ What happens when you open a URL?
+
+For example: `http://localhost:8080/welcome`
+
+### 🔄 How it works (Step-by-step):
+
+1. **Client (Browser)** sends a request.
+2. **Front Controller (DispatcherServlet)** catches the request.
+3. It sends the request to a **Controller**.
+4. Controller calls **Service Layer (logic)**.
+5. Then service may call **DAO/Repository** to access the **Database**.
+6. Finally, it returns a **View (like JSP/HTML)**.
+
+### ✏️ Example:
+
+```java
+@Controller
+public class MyController {
+
+    @GetMapping("/welcome")
+    public String welcomePage(Model model) {
+        model.addAttribute("name", "John");
+        return "welcome"; // goes to welcome.jsp
+    }
+}
+```
+
+* URL: `http://localhost:8080/welcome`
+* Page: `welcome.jsp` is shown with the name "John".
+
+---
+
+## ✅ 2. **Annotations in Spring MVC**
+
+### 📌 `@RequestParam`
+
+In Spring (and Spring Boot, which builds on Spring), the @RequestParam annotation is a powerful tool used in controller methods to extract data from the query parameters of an HTTP request.
+
+**Example:**
+
+```java
+@GetMapping("/greet")
+public String greet(@RequestParam String name) {
+    return "Hello " + name;
+}
+// URL: /greet?name=Alice → Output: Hello Alice
+```
+
+---
+
+### 📌 `@PathVariable`
+
+In Spring (and Spring Boot), the @PathVariable annotation is used to extract values from the URI path of an HTTP request. It allows you to define dynamic segments in your URL and bind those segments to method parameters in your controller.
+
+**Example:**
+
+```java
+@GetMapping("/user/{id}")
+public String showUser(@PathVariable int id) {
+    return "User ID: " + id;
+}
+// URL: /user/5 → Output: User ID: 5
+```
+
+---
+
+### 📌 `@ModelAttribute`
+
+Used for **form binding**.
+
+**Example:**
+
+```java
+@PostMapping("/register")
+public String registerUser(@ModelAttribute User user) {
+    return "Welcome " + user.getName();
+}
+Takes data from an HTML form (or URL parameters) and automatically fills it into a Java object. (e.g., takes "username" and "email" from a form and puts them into a User object).
+```
+
+Used in HTML:
+
+```html
+<form action="/register" method="post">
+  <input name="name"/>
+  <input name="email"/>
+</form>
+```
+
+---
+
+### 📌 `@SessionAttribute`
+
+Used to get data from **session memory**.
+
+```java
+@GetMapping("/dashboard")
+public String dashboard(@SessionAttribute("user") User user) {
+    return "Hello " + user.getName();
+}
+```
+
+---
+
+### 📌 `@ResponseBody`
+
+Sends **text or JSON** directly to browser (not a view page).
+
+```java
+@GetMapping("/hello")
+@ResponseBody
+public String sayHello() {
+    return "Hello World";
+}
+```
+
+Browser will show: `Hello World`
+
+---
+
+## ✅ 3. **What is Front Controller?**
+
+In Spring MVC, the **DispatcherServlet** is the **Front Controller**.
+
+* It controls all web requests.
+* It finds the controller, calls service, and returns the view.
+
+---
+
+## ✅ 4. **Spring MVC vs Spring Boot**
+
+| Feature           | Spring MVC               | Spring Boot                  |
+| ----------------- | ------------------------ | ---------------------------- |
+| Setup             | Manual config (XML/Java) | Automatic setup              |
+| Server            | Needs external server    | Has built-in server (Tomcat) |
+| Development speed | Slower                   | Much faster                  |
+
+---
+
+## ✅ 5. **Spring Boot Features**
+
+* Easy setup
+* No XML config
+* Embedded server (Tomcat)
+* Auto-configuration
+* Ready-to-use dependencies
+
+---
+
+## ✅ 6. **Spring Modules**
+
+Spring has different modules like:
+
+* Spring Core
+* Spring Web
+* Spring MVC
+* Spring Data JPA
+* Spring Boot
+* Spring Security
+* Spring AOP
+
+---
+
+## ✅ 7. **Main Components in Spring MVC**
+
+1. **DispatcherServlet** – front controller
+2. **Controller** – handles request
+3. **Service Layer** – business logic
+4. **Repository/DAO** – database access
+5. **Model** – holds data
+6. **ViewResolver** – maps to HTML/JSP pages
+
+---
+
+## ✅ 8. `@Controller` vs `@RestController`
+
+| @Controller      | @RestController  |
+| ---------------- | ---------------- |
+| Returns JSP/HTML | Returns JSON/XML |
+| Used in Web Apps | Used in APIs     |
+
+---
+
+## ✅ 9. **Web Services & Types**
+
+* Web service: A way to communicate between applications over the internet.
+
+### Two Types:
+
+* **SOAP**: Heavy, XML-based
+* **REST**: Simple, uses HTTP, returns JSON
+
+---
+
+## ✅ 10. **Web App vs Distributed App**
+
+| Web App            | Distributed App        |
+| ------------------ | ---------------------- |
+| Runs in one server | Runs in many servers   |
+| Easier to build    | Better for big systems |
+
+---
+
+## ✅ 11. **HTTP Methods (Short Summary)**
+
+* `GET` – Read data
+* `POST` – Create data
+* `PUT` – Update data
+* `DELETE` – Remove data
+
+---
+
+## ✅ 12. **HTTP Status Codes (Examples)**
+
+* `200` – OK
+* `201` – Created
+* `400` – Bad Request
+* `404` – Not Found
+* `500` – Server Error
+
+---
+
+## ✅ 13. **GET vs POST**
+
+| GET               | POST               |
+| ----------------- | ------------------ |
+| Sends data in URL | Sends data in body |
+| Used for reading  | Used for creating  |
+
+---
+
+## ✅ 14. **ViewResolver**
+
+Maps the controller’s return string to a JSP file.
+
+```java
+return "home"; // Goes to /WEB-INF/views/home.jsp
+```
+
+---
+
+## ✅ 15. ApplicationContext vs WebApplicationContext
+
+| ApplicationContext     | WebApplicationContext       |
+| ---------------------- | --------------------------- |
+| Basic Spring container | For Web applications        |
+| No web support         | Supports Controllers, Views |
+
+---
+
+## ✅ 16.**Validation in Spring**
+
+Use annotations like `@NotBlank`, `@Email`, `@Size`.
+
+Controller:
+
+```java
+@PostMapping("/save")
+public String save(@Valid @ModelAttribute User user, BindingResult result) {
+    if(result.hasErrors()) return "form";
+    return "success";
+}
+```
+
+---
+
+## ✅ 17. **Exception Handling in Spring MVC**
+
+Global handler:
+
+```java
+@ControllerAdvice
+public class MyExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public String handleError() {
+        return "error";
+    }
+}
+```
+
+---
+
+## ✅ 18. `@RequestParam` vs `@PathVariable`
+
+| @RequestParam           | @PathVariable       |
+| ----------------------- | ------------------- |
+| Comes from query string | Comes from URL path |
+
+---
+
+## ✅ 19. **Query String vs Query Parameter**
+
+1. Query String
+The query string is the entire part of the URL that comes after the question mark (?). It represents a single, complete string of data sent to the server.
+
+In the example above, the query string is:
+?q=laptop&category=electronics&sort=price_asc
+
+It always starts with a ?.
+It combines one or more query parameters using the & symbol as a separator.
+2. Query Parameter (or URL Parameter)
+A query parameter is an individual key-value pair within the query string. Each parameter provides a specific piece of information.
+
+In the example above, the query parameters are:
+
+q=laptop
+category=electronics
+sort=price_asc
+Each query parameter consists of:
+
+A key (e.g., q, category, sort)
+An equals sign (=)
+A value (e.g., laptop, electronics, price_asc)
+
+---
+
+## ✅ 20. `@RequestBody` vs `@ResponseBody`
+
+* `@RequestBody`: JSON → Java
+* `@ResponseBody`: Java → JSON
+
+---
+
+## ✅ 21. **JSP Tags (Examples)**
+
+* `<c:forEach>` – loop
+* `<c:if>` – condition
+* `<form:form>` – Spring form tag
+
+---
+
+## ✅ 22. **Implicit JSP Objects**
+
+| Object     | What it is           |
+| ---------- | -------------------- |
+| `request`  | HTTP request object  |
+| `response` | HTTP response        |
+| `session`  | Current user session |
+| `out`      | For writing output   |
+
+---
+
+## ✅ 23. **Servlet vs JSP**
+
+| Servlet           | JSP           |
+| ----------------- | ------------- |
+| Java code only    | HTML + Java   |
+| Hard to design UI | Easier for UI |
+
+---
+
+## ✅ 24. **Servlet & JSP Lifecycle**
+
+### Servlet:
+
+1. init()
+2. service()
+3. destroy()
+
+### JSP:
+
+1. `_jspInit()`
+2. `_jspService()`
+3. `_jspDestroy()`
+
+---
+
+## ✅ 25. **Model vs ModelMap vs ModelAndView**
+
+| Model     | ModelMap  | ModelAndView          |
+| --------- | --------- | --------------------- |
+| Adds data | Adds data | Adds data + view name |
+
+---
+
+## ✅ 26. **Bean Validation**
+
+```java
+public class User {
+    @NotBlank
+    private String name;
+
+    @Email
+    private String email;
+}
+```
+
+Use `@Valid` in controller.
+
+---
+
+## ✅ 27. **BindingResult**
+
+Used to capture validation errors after `@Valid`.
+
+---
+
+## ✅ 28. **File Uploads in Spring MVC**
+
+```java
+@PostMapping("/upload")
+public String uploadFile(@RequestParam MultipartFile file) {
+    file.transferTo(new File("upload/" + file.getOriginalFilename()));
+    return "success";
+}
+```
+
+---
+
+## ✅ 29. `@SessionAttribute` vs `@SessionAttributes`
+
+| @SessionAttribute | @SessionAttributes |
+| ----------------- | ------------------ |
+| Reads session     | Stores in session  |
+
+---
+
+## ✅ 30. **Spring AOP (Aspect-Oriented Programming)**
+
+Used for logging, security, etc. separately from main code.
+
+Example:
+
+```java
+@Aspect
+public class LogAspect {
+    @Before("execution(* com.service.*.*(..))")
+    public void log() {
+        System.out.println("Method called");
+    }
+}
+```
+
+---
+
+## ✅ 31. **Monolithic vs Microservices**
+
+| Monolithic     | Microservices           |
+| -------------- | ----------------------- |
+| All in one app | Multiple small services |
+| Hard to scale  | Easy to scale           |
+
+---
+
+## ✅ 32. **Microservices Architecture**
+
+Each service:
+
+* Has its own DB
+* Runs independently
+* Talks via REST APIs
+
+---
+
+## ✅ 33. **Forward vs Redirect**
+
+| Forward            | Redirect          |
+| ------------------ | ----------------- |
+| Happens in server  | Client redirected |
+| URL doesn't change | URL changes       |
+
+---
+
+## ✅ 34. **Spring Boot Starters**
+
+Example:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+---
+
+## ✅ 35. `@SpringBootApplication`
+
+Combines:
+
+* `@Configuration`
+* `@EnableAutoConfiguration`
+* `@ComponentScan`
+
+---
+
+## ✅ 36. **Spring Initializr**
+
+Visit: [start.spring.io](https://start.spring.io)
+Choose:
+
+* Java version
+* Dependencies
+* Generate project
+
+---
+
+## ✅ 37. **Spring Boot CLI Commands**
+
+```bash
+spring init --dependencies=web,data-jpa my-app
+cd my-app
+spring run MyApp.java
+```
+

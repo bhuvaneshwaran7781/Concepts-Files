@@ -1,0 +1,349 @@
+
+## **What is Mockito?**
+Mockito is a Java testing framework that allows developers to create and use mock objects for unit testing. Mocks help simulate dependencies so that tests can focus purely on the logic of the component being tested.
+
+Mockito provides various functionalities such as:
+- Stubbing method responses.
+- Verifying interactions between objects.
+- Handling exceptions in tests.
+- Supporting **Behavior-Driven Development (BDD)**.
+- Using spies for partial mocking.
+
+---
+
+## **1. Creating Mocks**
+Mocks are simulated objects that mimic real ones.
+
+### **Example: Basic Mock Creation**
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoMockTest {
+    @Test
+    void testMockCreation() {
+        List<String> mockList = mock(List.class);
+        when(mockList.get(0)).thenReturn("Hello Mockito");
+
+        System.out.println(mockList.get(0)); // Outputs: Hello Mockito
+    }
+}
+```
+
+### **Explanation**
+1. `mock(List.class)` creates a mock version of the `List` interface.
+2. We define that calling `mockList.get(0)` will return `"Hello Mockito"`.
+3. Running `System.out.println(mockList.get(0))` prints `"Hello Mockito"`.
+
+---
+
+## **2. Stubbing Methods**
+Stubbing defines responses to specific method calls.
+
+### **Example: Returning Different Values**
+```java
+import static org.mockito.Mockito.*;
+
+class MockitoStubbingTest {
+    public static void main(String[] args) {
+        List<String> mockList = mock(List.class);
+        when(mockList.get(0)).thenReturn("First Call").thenReturn("Second Call");
+
+        System.out.println(mockList.get(0)); // Outputs: First Call
+        System.out.println(mockList.get(0)); // Outputs: Second Call
+    }
+}
+```
+
+### **Explanation**
+- `thenReturn()` allows defining multiple return values.
+- The first call returns `"First Call"`, and the second returns `"Second Call"`.
+
+---
+
+## **3. Verifying Method Calls**
+Verifying ensures interactions with mocks happened correctly.
+
+### **Example: Verification Variations**
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoVerifyTest {
+    @Test
+    void testVerifyMethodCalls() {
+        List<String> mockList = mock(List.class);
+        mockList.add("Test");
+        mockList.add("Test");
+
+        verify(mockList, times(2)).add("Test"); // Method called twice
+        verify(mockList, never()).add("Wrong"); // Method never called with "Wrong"
+    }
+}
+```
+
+### **Explanation**
+- `verify(mockList, times(2)).add("Test")` ensures `"Test"` was added exactly **twice**.
+- `verify(mockList, never()).add("Wrong")` checks `"Wrong"` was **never** passed.
+
+---
+
+## **4. Handling Exceptions (`thenThrow()`)**
+Mockito can simulate exceptions.
+
+### **Example: Mocking an Exception**
+```java
+import static org.mockito.Mockito.*;
+
+class MockitoExceptionTest {
+    public static void main(String[] args) {
+        List<String> mockList = mock(List.class);
+        when(mockList.get(0)).thenThrow(new RuntimeException("Exception Thrown"));
+
+        try {
+            mockList.get(0);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage()); // Outputs: Exception Thrown
+        }
+    }
+}
+```
+
+### **Explanation**
+- Calling `mockList.get(0)` throws a `RuntimeException`.
+- Inside the `try` block, the exception is caught and its message is printed.
+
+---
+
+## **5. Using BDD Mockito (`given()` instead of `when()`)**
+Mockito supports **Behavior-Driven Development (BDD)**.
+
+### **Example: BDD Style Stubbing**
+```java
+import static org.mockito.BDDMockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class BDDMockitoTest {
+    @Test
+    void testBDDMockito() {
+        List<String> mockList = mock(List.class);
+        given(mockList.get(0)).willReturn("BDD Mockito");
+
+        System.out.println(mockList.get(0)); // Outputs: BDD Mockito
+    }
+}
+```
+
+### **Explanation**
+- `given(mockList.get(0)).willReturn("BDD Mockito")` improves readability.
+- `"BDD Mockito"` is returned when calling `mockList.get(0)`.
+
+---
+
+## **6. Using `doReturn()` Instead of `when()`**
+For spies, `doReturn()` is safer than `when()`.
+
+### **Example: Using Spies with `doReturn()`**
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoSpyTest {
+    @Test
+    void testDoReturn() {
+        List<String> spyList = spy(List.class);
+        doReturn("Safe Mocking").when(spyList).get(0);
+
+        System.out.println(spyList.get(0)); // Outputs: Safe Mocking
+    }
+}
+```
+
+### **Explanation**
+- `spy(List.class)` allows partial mocking.
+- `doReturn("Safe Mocking").when(spyList).get(0)` avoids unintended execution.
+- `"Safe Mocking"` is returned safely.
+
+---
+
+## **Why Use Mockito?**
+✔ **Isolates Components** – Helps test without external dependencies.  
+✔ **Improves Test Reliability** – Ensures predictable responses.  
+✔ **Flexible Verification** – Confirms method calls happened correctly.  
+✔ **Supports BDD** – Makes tests easier to read.  
+✔ **Handles Edge Cases** – Simulates exceptions and return values.
+
+---
+---------------------------------------------------------------------------------------
+
+Mockito is a powerful and widely used Java testing framework that enables developers to create mock objects and verify interactions in unit tests. It simplifies the process of testing components that depend on other objects by providing flexible mock behavior. Let’s go in depth with the concepts you mentioned:
+
+### 1. Returning Different Values
+Mockito allows you to return different values when the same method is called multiple times.
+
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoTest {
+    @Test
+    void testReturningDifferentValues() {
+        List<String> mockList = mock(List.class);
+        when(mockList.get(0)).thenReturn("First").thenReturn("Second");
+
+        System.out.println(mockList.get(0)); // Outputs: First
+        System.out.println(mockList.get(0)); // Outputs: Second
+    }
+}
+```
+
+In this example, the `get(0)` method will return "First" on the first invocation and "Second" on the second.
+
+### 2. Variations on Verify
+Mockito's `verify()` method is used to ensure certain interactions with the mock objects occurred.
+
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoVerifyTest {
+    @Test
+    void testVerifyVariations() {
+        List<String> mockList = mock(List.class);
+        mockList.add("Hello");
+        mockList.add("Hello");
+
+        verify(mockList, times(2)).add("Hello"); // Verifies the method was called twice
+        verify(mockList, never()).add("World");  // Ensures "World" was never added
+        verify(mockList, atLeastOnce()).add("Hello"); // At least once
+        verify(mockList, atMost(5)).add("Hello"); // At most 5 times
+    }
+}
+```
+
+### 3. `thenThrow()`
+The `thenThrow()` method is useful for simulating exceptions.
+
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoThrowTest {
+    @Test
+    void testThenThrow() {
+        List<String> mockList = mock(List.class);
+        when(mockList.get(0)).thenThrow(new RuntimeException("Test Exception"));
+
+        try {
+            mockList.get(0);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage()); // Outputs: Test Exception
+        }
+    }
+}
+```
+
+### 4. BDD Mockito
+BDD (Behavior-Driven Development) Mockito encourages tests to be written in a more natural language style using `given()` instead of `when()`.
+
+```java
+import static org.mockito.BDDMockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class BDDMockitoTest {
+    @Test
+    void testBDDMockito() {
+        List<String> mockList = mock(List.class);
+
+        given(mockList.get(0)).willReturn("BDD Style");
+
+        System.out.println(mockList.get(0)); // Outputs: BDD Style
+    }
+}
+```
+
+### 5. Switching from `when()`/`thenReturn()` to `doReturn()/when()`
+In cases where stubbing happens on spies (partial mocks), using `doReturn()` is safer than `when()`.
+
+```java
+import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+
+class MockitoDoReturnTest {
+    @Test
+    void testDoReturn() {
+        List<String> spyList = spy(List.class);
+        doReturn("Safe Mocking").when(spyList).get(0);
+
+        System.out.println(spyList.get(0)); // Outputs: Safe Mocking
+    }
+}
+```
+
+Using `doReturn()` avoids unexpected method execution that might occur when using a spy.
+
+---
+
+
+Mockito is a popular open-source testing framework for Java that allows developers to create and manage mock objects efficiently. It is widely used for unit testing, enabling developers to simulate dependencies and verify interactions between objects without requiring actual implementations.
+
+### **Key Features of Mockito**:
+1. **Mocking Dependencies**: Mockito helps create mock objects that simulate real objects, making testing easier without actual implementations.
+2. **Behavior Verification**: Allows verification of method calls and ensures expected interactions occur in the code.
+3. **Stubbing**: Enables predefined responses for method calls on mock objects to control test scenarios.
+4. **Argument Matchers**: Provides flexibility in verifying method calls with different parameters.
+5. **Annotations Support**: Simplifies mocking using annotations like `@Mock`, `@InjectMocks`, and `@Spy`.
+6. **Exception Handling**: Allows simulation of exceptions to test error-handling mechanisms in code.
+7. **No Need for a Server**: Since it works with Java objects, Mockito does not require external dependencies or server setups.
+8. **Integration with JUnit**: Works seamlessly with JUnit and other testing frameworks.
+
+### **Common Mockito Annotations**:
+- `@Mock`: Used to create a mock instance.
+- `@InjectMocks`: Automatically injects mocks into a tested class.
+- `@Spy`: Creates a partial mock that allows calling real methods.
+
+### **Basic Example of Mockito Usage**:
+
+```java
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+
+class CalculatorService {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class CalculatorTest {
+    @Test
+    void testAddition() {
+        // Creating a mock object
+        CalculatorService mockCalculator = mock(CalculatorService.class);
+
+        // Defining behavior for the mock
+        when(mockCalculator.add(2, 3)).thenReturn(5);
+
+        // Verification
+        assert mockCalculator.add(2, 3) == 5;
+        verify(mockCalculator).add(2, 3);
+    }
+}
+```
+
+In this example:
+- We mock `CalculatorService`.
+- We define expected behavior using `when(...).thenReturn(...)`.
+- We verify the interaction using `verify(mockCalculator).add(2, 3)`.
+
+Mockito simplifies unit testing, reduces dependencies on external services, and improves test reliability. If you need deeper insights, let me know what specific aspects interest you!
+

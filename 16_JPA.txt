@@ -1,0 +1,1200 @@
+Object-Relational Mapping (ORM) in **Spring Data JPA** with **Spring Boot** is a powerful way to interact with relational databases using Java objects. Let’s break down the **basics of ORM in Spring JPA** with clear explanations and examples.
+
+---
+
+## 🔹 What is ORM?
+
+**ORM (Object-Relational Mapping)** is a technique that allows you to map Java objects to database tables. Instead of writing SQL queries, you interact with the database using Java classes and methods.
+
+---
+
+## 🔹 Key Components in Spring Data JPA
+
+1. **Entity** – A Java class mapped to a database table.
+2. **Repository** – Interface to perform CRUD operations.
+3. **Service** – Business logic layer.
+4. **Controller** – Handles HTTP requests.
+
+---
+
+## 🔹 Step-by-Step Example
+
+Let’s build a simple **Spring Boot** application to manage `Student` records.
+
+### 1. **Add Dependencies** (in `pom.xml` for Maven)
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+---
+
+### 2. **Configure `application.properties`**
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+```
+
+---
+
+### **Create Entity Class**
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+
+    // Getters and Setters
+}
+```
+
+- `@Entity`: Marks this class as a JPA entity.
+- `@Id`: Primary key.
+- `@GeneratedValue`: Auto-generates the ID.
+
+---
+
+###  StudentRepository extends JpaRepository<Student, Long> {
+    // Custom query methods can be added here
+}
+```
+
+- `JpaRepository` provides CRUD methods like `save()`, `findById()`, `findAll()`, `deleteById()`.
+
+---
+
+### 5. **Create Service Layer**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class StudentService {
+
+    @Autowired
+    private StudentRepository repository;
+
+    public List<Student> getAllStudents() {
+        return repository.findAll();
+    }
+
+    public Student saveStudent(Student student) {
+        return repository.save(student);
+    }
+}
+```
+
+---
+
+### 6. **Create Controller**
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/students")
+public class StudentController {
+
+    @Autowired
+    private StudentService service;
+
+    @GetMapping
+    public List<Student> getStudents() {
+        return service.getAllStudents();
+    }
+
+    @PostMapping
+    public Student addStudent(@RequestBody Student student) {
+        return service.saveStudent(student);
+    }
+}
+```
+
+---
+
+## 🔹 How It All Works
+
+- When you hit `POST /students`, Spring Boot:
+  - Maps the JSON to a `Student` object.
+  - Calls `save()` from `JpaRepository`.
+  - ORM (via Hibernate) converts the object to an SQL `INSERT` statement.
+
+- When you hit `GET /students`, it fetches all records using `findAll()`.
+
+---
+
+## 🔹 Benefits of Using ORM with Spring JPA
+
+- No boilerplate SQL.
+- Easy CRUD operations.
+- Type-safe queries.
+- Built-in transaction management.
+- Integration with Spring Boot is seamless.
+
+---
+
+Would you like a **diagram** showing how these components interact, or should we go deeper into **advanced JPA features** like relationships (`@OneToMany`, `@ManyToOne`), JPQL, or native queries?
+
+--------------------------------------------------
+
+CRUD:
+
+Let’s dive into **CRUD operations** in **Spring Data JPA with Spring Boot**. CRUD stands for:
+
+- **C**reate
+- **R**ead
+- **U**pdate
+- **D**elete
+
+These are the basic operations you perform on a database.
+
+---
+
+## 🔹 1. Create (Insert)
+
+To **add a new record** to the database, use the `save()` method.
+
+### Example:
+
+```java
+@PostMapping("/students")
+public Student createStudent(@RequestBody Student student) {
+    return studentRepository.save(student);
+}
+```
+
+- This will insert a new `Student` into the database.
+
+---
+
+## 🔹 2. Read (Select)
+
+To **fetch data**, use methods like `findAll()`, `findById()`, or custom queries.
+
+### Get all students:
+
+```java
+@GetMapping("/students")
+public List<Student> getAllStudents() {
+    return studentRepository.findAll();
+}
+```
+
+### Get student by ID:
+
+```java
+@GetMapping("/students/{id}")
+public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    return studentRepository.findById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+}
+```
+
+---
+
+## 🔹 3. Update
+
+To **update a record**, fetch it first, modify it, and then save it again.
+
+### Example:
+
+```java
+@PutMapping("/students/{id}")
+public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
+    return studentRepository.findById(id)
+        .map(student -> {
+            student.setName(updatedStudent.getName());
+            student.setEmail(updatedStudent.getEmail());
+            return ResponseEntity.ok(studentRepository.save(student));
+        })
+        .orElse(ResponseEntity.notFound().build());
+}
+```
+
+---
+
+## 🔹 4. Delete
+
+To **delete a record**, use `deleteById()`.
+
+### Example:
+
+```java
+@DeleteMapping("/students/{id}")
+public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    if (studentRepository.existsById(id)) {
+        studentRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
+```
+
+---
+
+## 🔹 Summary of Repository Methods
+
+| Method                     | Description                          |
+|---------------------------|--------------------------------------|
+| `save(entity)`            | Insert or update                     |
+| `findAll()`               | Get all records                      |
+| `findById(id)`            | Get a record by ID                   |
+| `deleteById(id)`          | Delete a record by ID                |
+| `existsById(id)`          | Check if a record exists             |
+| `count()`                 | Count total records                  |
+
+---
+
+Would you like me to generate a **Postman collection**, a **diagram**, or a **sample project structure** for this CRUD setup?
+--------------------------------------------------------------
+
+In **Spring Data JPA**, **finder methods** (also known as **query methods**) allow you to define database queries by simply declaring method names in your repository interface. Spring Data JPA automatically generates the implementation based on the method name.
+
+---
+
+## 🔹 Basic Syntax
+
+```java
+List<Entity> findBy<FieldName>(<Type> value);
+```
+
+Spring parses the method name and creates the appropriate SQL query.
+
+---
+
+## 🔹 Common Keywords in Finder Methods
+
+| Keyword         | Description                              |
+|-----------------|------------------------------------------|
+| `findBy`        | Select records by a field                |
+| `readBy`        | Same as `findBy`                         |
+| `getBy`         | Same as `findBy`                         |
+| `countBy`       | Count records                            |
+| `existsBy`      | Check if record exists                   |
+| `deleteBy`      | Delete records                           |
+| `removeBy`      | Same as `deleteBy`                       |
+
+---
+
+## 🔹 Examples
+
+Assume we have this `Student` entity:
+
+```java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String email;
+    private int age;
+}
+```
+
+### 1. **Find by single field**
+
+```java
+List<Student> findByName(String name);
+```
+
+SQL: `SELECT * FROM student WHERE name = ?`
+
+---
+
+### 2. **Find by multiple fields**
+
+```java
+Student findByNameAndEmail(String name, String email);
+```
+
+SQL: `SELECT * FROM student WHERE name = ? AND email = ?`
+
+---
+
+### 3. **Find by field with conditions**
+
+```java
+List<Student> findByAgeGreaterThan(int age);
+List<Student> findByAgeLessThanEqual(int age);
+List<Student> findByNameContaining(String keyword);
+```
+
+---
+
+### 4. **Sorting and Limiting**
+
+```java
+List<Student> findTop3ByOrderByAgeDesc();
+```
+
+SQL: `SELECT * FROM student ORDER BY age DESC LIMIT 3`
+
+---
+
+### 5. **Boolean Checks**
+
+```java
+boolean existsByEmail(String email);
+long countByAge(int age);
+```
+
+---
+
+### 6. **Delete by field**
+
+```java
+void deleteByName(String name);
+```
+
+---
+
+## 🔹 Custom Queries (if needed)
+
+If method names get too complex, use `@Query`:
+
+```java
+@Query("SELECT s FROM Student s WHERE s.name = :name")
+List<Student> searchByName(@Param("name") String name);
+```
+
+---
+
+Would you like a **cheat sheet** or a **visual diagram*
+
+
+* of finder method keywords and patterns?
+
+
+------------------------------------------------
+
+In **Spring Data JPA**, **paging and sorting** are powerful features that help you manage large datasets efficiently by retrieving only a portion of the data at a time and ordering it as needed.
+
+---
+
+## 🔹 1. Enabling Paging and Sorting
+
+Spring Data provides two interfaces for this:
+
+- `Pageable` – for pagination
+- `Sort` – for sorting
+
+You can use them in repository methods or controller endpoints.
+
+---
+
+## 🔹 2. Repository Method Example
+
+```java
+Page<Student> findAll(Pageable pageable);
+List<Student> findByAge(int age, Pageable pageable);
+```
+
+---
+
+## 🔹 3. Controller Example
+
+```java
+@GetMapping("/students")
+public Page<Student> getStudents(
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "5") int size,
+    @RequestParam(defaultValue = "name") String sortBy
+) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    return studentRepository.findAll(pageable);
+}
+```
+
+### Explanation:
+- `page`: Page number (0-based index)
+- `size`: Number of records per page
+- `sortBy`: Field to sort by
+
+---
+
+## 🔹 4. Sorting Options
+
+You can sort in ascending or descending order:
+
+```java
+Sort.by("name").ascending();
+Sort.by("age").descending();
+```
+
+Or combine multiple:
+
+```java
+Sort sort = Sort.by("age").descending().and(Sort.by("name").ascending());
+```
+
+---
+
+## 🔹 5. Return Types
+
+| Return Type     | Description                              |
+|------------------|------------------------------------------|
+| `Page<T>`        | Contains content + metadata (total pages, etc.) |
+| `Slice<T>`       | Like `Page`, but without total count     |
+| `List<T>`        | Just the content                         |
+
+---
+
+## 🔹 6. Example Response (Page)
+
+```json
+{
+  "content": [
+    { "id": 1, "name": "Alice", "age": 22 },
+    { "id": 2, "name": "Bob", "age": 23 }
+  ],
+  "totalPages": 5,
+  "totalElements": 25,
+  "number": 0,
+  "size": 5,
+  "first": true,
+  "last": false
+}
+```
+
+---
+
+Would you like a **visual diagram** showing how pagination and sorting work in a Spring Boot API flow?
+-------------------------------------------------
+### 🔹 What is JPQL?
+
+**JPQL (Java Persistence Query Language)** is an object-oriented query language used in **JPA** (Java Persistence API). Unlike SQL, which works with tables and columns, **JPQL works with Java objects and their fields**.
+
+It allows you to write queries that are **independent of the database** and based on your entity model.
+
+---
+
+## 🔹 JPQL vs SQL
+
+| SQL                          | JPQL                            |
+|-----------------------------|----------------------------------|
+| `SELECT * FROM student`     | `SELECT s FROM Student s`       |
+| Works with tables/columns   | Works with entities/fields      |
+| Database-specific            | Object-oriented and portable    |
+
+---
+
+## 🔹 Basic JPQL Syntax
+
+```java
+@Query("SELECT s FROM Student s WHERE s.name = :name")
+List<Student> findByName(@Param("name") String name);
+```
+
+- `Student` is the entity class.
+- `s.name` refers to the field in the entity, not the column name.
+- `:name` is a named parameter.
+
+---
+
+## 🔹 Common JPQL Examples
+
+### 1. **Select All**
+
+```java
+@Query("SELECT s FROM Student s")
+List<Student> getAllStudents();
+```
+
+---
+
+### 2. **Where Clause**
+
+```java
+@Query("SELECT s FROM Student s WHERE s.age > :age")
+List<Student> findStudentsOlderThan(@Param("age") int age);
+```
+
+---
+
+### 3. **Like / Pattern Matching**
+
+```java
+@Query("SELECT s FROM Student s WHERE s.name LIKE %:keyword%")
+List<Student> searchByName(@Param("keyword") String keyword);
+```
+
+---
+
+### 4. **Ordering**
+
+```java
+@Query("SELECT s FROM Student s ORDER BY s.age DESC")
+List<Student> getStudentsSortedByAge();
+```
+
+---
+
+### 5. **Count**
+
+```java
+@Query("SELECT COUNT(s) FROM Student s WHERE s.age > :age")
+long countOlderStudents(@Param("age") int age);
+```
+
+---
+
+### 6. **Delete**
+
+```java
+@Modifying
+@Query("DELETE FROM Student s WHERE s.name = :name")
+void deleteByName(@Param("name") String name);
+```
+
+> ⚠️ Use `@Modifying` for `UPDATE` or `DELETE` queries.
+
+---
+
+## 🔹 JPQL in Repository Interface
+
+```java
+public interface StudentRepository extends JpaRepository<Student, Long> {
+
+    @Query("SELECT s FROM Student s WHERE s.email = ?1")
+    Student findByEmail(String email);
+
+    @Query("SELECT s FROM Student s WHERE s.age BETWEEN ?1 AND ?2")
+    List<Student> findByAgeRange(int minAge, int maxAge);
+}
+```
+
+---
+
+--------------------------------------------------------------------------------------
+
+
+
+### **1) What is ORM (Object Relational Mapping)?**
+
+**Definition:** ORM is a technique that connects **Java objects** with **relational database tables**.
+
+* **Object** = a Java class instance (e.g., `User`, `Employee`)
+* **Relational** = database (e.g., MySQL, PostgreSQL)
+* **Mapping** = linking Java class fields to database columns.
+
+👉 With ORM, you can interact with a database using Java objects instead of writing SQL queries.
+
+---
+
+### **2) What is JPA (Java Persistence API)?**
+
+**Definition:** JPA is a **Java specification** (set of rules) for ORM. It defines how Java classes should map to database tables.
+
+* JPA is just a **standard**, not an implementation.
+* It works with providers like **Hibernate**, **EclipseLink**, etc.
+
+---
+
+### **3) What is Spring Data JPA?**
+
+**Definition:** Spring Data JPA is a **Spring Framework module** that simplifies data access using JPA.
+
+Key Terms:
+
+* **Repository**: A Spring interface used to interact with data.
+* **CRUD**: Create, Read, Update, Delete.
+* **Derived Queries**: Methods automatically translated into SQL (e.g., `findByName`).
+
+---
+
+### **4) JPA vs Hibernate**
+
+| JPA                                    | Hibernate                            |
+| -------------------------------------- | ------------------------------------ |
+| Java specification                     | Java library (implementation of JPA) |
+| Provided by Oracle                     | Developed by Red Hat                 |
+| Can switch provider (like EclipseLink) | Tied to Hibernate-specific features  |
+| Requires an implementation             | Is itself an implementation          |
+
+---
+
+### **5) JDBC vs Hibernate**
+
+| JDBC                      | Hibernate                      |
+| ------------------------- | ------------------------------ |
+| Manual SQL writing needed | SQL is generated automatically |
+| No ORM support            | Full ORM support               |
+| More boilerplate code     | Less code                      |
+| Harder to maintain        | Easier and scalable            |
+
+---
+
+### **6) What is an Entity?**
+
+**Entity**: A simple Java class annotated with `@Entity` that represents a table in the database.
+
+Key Terms:
+
+* **@Entity**: Tells JPA this class maps to a table.
+* **@Id**: Marks the primary key.
+* **Field**: Becomes a column in the table.
+
+---
+
+### **7) Types of Entity Mapping**
+
+Relationships between entities:
+
+* **One-to-One**: Each record in A has one matching record in B.
+* **One-to-Many**: One entity is related to many others.
+* **Many-to-One**: Many entities relate to one.
+* **Many-to-Many**: Both sides can have multiple relations.
+
+Example:
+
+```java
+@OneToMany
+private List<Order> orders;
+```
+
+---
+
+### **8) Query methods in JPA**
+
+These are **derived query methods**.
+
+**Definition**: Spring Data JPA can create SQL from method names.
+
+Examples:
+
+* `findByName(String name)`
+* `findByEmailAndCity(String email, String city)`
+
+---
+
+### **9) What is JPQL (Java Persistence Query Language)?**
+
+**Definition**: JPQL is a query language for JPA that uses **entity names and fields**, not table and column names.
+
+Example:
+
+```java
+@Query("SELECT u FROM User u WHERE u.name = :name")
+```
+
+---
+
+### **10) How to use native query in Spring Boot?**
+
+**Native Query**: SQL written directly for the database.
+
+Use `@Query` with `nativeQuery = true`.
+
+Example:
+
+```java
+@Query(value = "SELECT * FROM user WHERE name = :name", nativeQuery = true)
+```
+
+---
+
+### **11) What are Named Queries?**
+
+**Named Queries**: Predefined JPQL queries assigned a name.
+
+* Defined with `@NamedQuery`.
+* Reusable throughout the code.
+
+Example:
+
+```java
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+```
+
+---
+
+### **12) Different types of Cascades used in JPA**
+
+Cascade defines what happens to child entities when a parent is updated.
+
+Types:
+
+Cascade Type	Description
+PERSIST	When the parent is saved, the child entities are also saved.
+MERGE	When the parent is updated, the child entities are also updated.
+REMOVE	When the parent is deleted, the child entities are also deleted.
+REFRESH	When the parent is refreshed from the database, the child entities are also refreshed.
+DETACH	When the parent is detached from the persistence context, the child entities are also detached.
+ALL	Applies all of the above cascade types.
+
+---
+
+### **13) Hibernate vs Hibernate ORM**
+
+Same thing. **Hibernate** is short for **Hibernate ORM** (Object-Relational Mapping framework).
+
+---
+
+### **14) Databases supported by Hibernate**
+
+Hibernate supports many databases, including:
+
+* MySQL
+* Oracle
+* PostgreSQL
+* SQL Server
+* H2
+* SQLite
+
+---
+
+### **15) What is HQL (Hibernate Query Language)?**
+
+**Definition**: Hibernate’s own query language similar to JPQL.
+
+* Uses **entity class and field names** instead of table names.
+* Allows **platform-independent queries**.
+
+Example:
+
+```java
+String hql = "FROM User WHERE name = :name";
+```
+
+---
+### **16) What is Session, SessionFactory, EntityManager in Hibernate?**
+
+* **Session**: Represents a single-threaded unit of work.
+* **SessionFactory**: Produces `Session` instances.
+* **EntityManager**: JPA's equivalent of Session, handles operations like persist, remove, find.
+
+---
+
+### **17) Main Components of JPA**
+
+* **Entity**: Java class mapped to a table.
+* **EntityManager**: Performs DB operations.
+* **Persistence Unit**: Configuration section in `persistence.xml`.
+* **JPQL**: Object-based query language.
+* **Annotations**: Used to describe mapping.
+
+---
+
+### **18) EntityManager vs EntityManagerFactory**
+
+| EntityManager               | EntityManagerFactory            |
+| --------------------------- | ------------------------------- |
+| Manages persistence context | Creates EntityManager instances |
+| Lightweight                 | Heavyweight, used once per app  |
+
+---
+
+### **19) What is a Persistence Unit?**
+
+Defined in `persistence.xml`. It includes:
+
+* Entity classes
+* Database connection info
+* Provider (like Hibernate)
+
+---
+
+### **20) Annotations used in JPA**
+
+* `@Entity` — Class maps to table
+* `@Id` — Primary key
+* `@GeneratedValue` — Auto ID
+* `@Column` — Maps field to DB column
+* `@Table` — Table name
+* `@OneToMany`, `@ManyToOne`, etc. — Relationships
+
+---
+
+### **21) Primary Key Generation Strategies in JPA**
+
+* **AUTO**: JPA picks the strategy
+* **IDENTITY**: Uses auto-increment field
+* **SEQUENCE**: Uses DB sequence
+* **TABLE**: Uses a table to simulate sequence
+
+Example:
+
+```java
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+```
+
+---
+
+### **22) FetchType.EAGER vs FetchType.LAZY**
+
+* **EAGER**: Loads related entities immediately.
+* **LAZY**: Loads related entities when accessed.
+
+```java
+@OneToMany(fetch = FetchType.LAZY)
+```
+
+---
+
+### **23) SQL vs JPQL**
+
+| SQL (Structured Query Language) | JPQL (Java Persistence Query Language) |
+| ------------------------------- | -------------------------------------- |
+| Uses table/column names         | Uses entity/field names                |
+| Vendor-specific                 | Platform-independent                   |
+| Pure DB language                | Object-oriented                        |
+
+---
+
+### **24) Handling Transactions using `@Transactional`**
+
+`@Transactional`: Marks a method as transactional.
+
+```java
+@Transactional
+public void save(User user) {
+    userRepository.save(user);
+}
+```
+
+Ensures operations are rolled back on failure.
+
+---
+
+### **25) Spring Data Finder Methods**
+
+You can create methods like:
+
+* `findByEmail(String email)`
+* `findByCityAndAge(String city, int age)`
+
+Spring Data will generate the SQL for you.
+
+---
+
+### **26) Paging & Sorting in Spring Data JPA**
+
+#### **Paging**: Breaking large data into smaller chunks (pages).
+
+#### **Sorting**: Ordering data (ASC/DESC).
+
+**Example:**
+
+```java
+Pageable pageable = PageRequest.of(0, 5, Sort.by("name").ascending());
+Page<User> page = userRepository.findAll(pageable);
+```
+
+* `PageRequest.of(0, 5)` → Page 1, 5 records
+* `Sort.by("name")` → Sorts by name
+
+**Repository:**
+
+```java
+public interface UserRepository extends PagingAndSortingRepository<User, Long> { }
+```
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Let's build a **Spring Boot project** called:
+
+> 🎯 **JPA Practice App** — A simple CRUD (Create, Read, Update, Delete) application using **Spring Boot**, **Spring Data JPA**, and **Hibernate** to demonstrate all core concepts such as Entities, Repositories, JPQL, native queries, named queries, pagination, sorting, and transactions.
+
+---
+
+## ✅ **Project Overview**
+
+* **Tech Stack**: Spring Boot, Spring Data JPA, Hibernate, H2 (in-memory database), Lombok
+* **Modules Covered**:
+
+  * Entity mappings
+  * JPQL and native queries
+  * CRUD operations
+  * Pagination and sorting
+  * Transactions
+  * Cascade operations
+
+---
+
+## 📁 Project Structure
+
+```
+jpa-practice-app/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com.example.jpa/
+│       │       ├── controller/
+│       │       ├── entity/
+│       │       ├── repository/
+│       │       ├── service/
+│       │       └── JPAPracticeApplication.java
+│       └── resources/
+│           ├── application.properties
+│           └── data.sql
+└── pom.xml
+```
+
+---
+
+## 1️⃣ **pom.xml** (Dependencies)
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>jpa-practice-app</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+---
+
+## 2️⃣ **application.properties**
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.show-sql=true
+spring.h2.console.enabled=true
+spring.jpa.hibernate.ddl-auto=update
+```
+
+---
+
+## 3️⃣ **Entity: User.java**
+
+```java
+package com.example.jpa.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@NamedQuery(name = "User.findByCity", query = "SELECT u FROM User u WHERE u.city = :city")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    private String email;
+
+    private String city;
+}
+```
+
+---
+
+## 4️⃣ **Repository: UserRepository.java**
+
+```java
+package com.example.jpa.repository;
+
+import com.example.jpa.entity.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    // Derived query
+    List<User> findByName(String name);
+
+    // JPQL query
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    List<User> getByEmail(@Param("email") String email);
+
+    // Native query
+    @Query(value = "SELECT * FROM user WHERE city = :city", nativeQuery = true)
+    List<User> getByCityNative(@Param("city") String city);
+
+    // Named query
+    List<User> findByCity(@Param("city") String city);
+
+    // Pagination
+    List<User> findAll(Pageable pageable);
+}
+```
+
+---
+
+## 5️⃣ **Service: UserService.java**
+
+```java
+package com.example.jpa.service;
+
+import com.example.jpa.entity.User;
+import com.example.jpa.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> getUsersByName(String name) {
+        return userRepository.findByName(name);
+    }
+
+    public List<User> getUsersByCity(String city) {
+        return userRepository.getByCityNative(city);
+    }
+
+    public Page<User> getUsersPaged(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userRepository.findAll(pageable);
+    }
+}
+```
+
+---
+
+## 6️⃣ **Controller: UserController.java**
+
+```java
+package com.example.jpa.controller;
+
+import com.example.jpa.entity.User;
+import com.example.jpa.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/users")
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+    @PostMapping
+    public User saveUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @GetMapping("/name/{name}")
+    public List<User> getByName(@PathVariable String name) {
+        return userService.getUsersByName(name);
+    }
+
+    @GetMapping("/city/{city}")
+    public List<User> getByCity(@PathVariable String city) {
+        return userService.getUsersByCity(city);
+    }
+
+    @GetMapping("/paged")
+    public Page<User> getPaged(
+        @RequestParam int page,
+        @RequestParam int size,
+        @RequestParam String sortBy
+    ) {
+        return userService.getUsersPaged(page, size, sortBy);
+    }
+}
+```
+
+---
+
+## 7️⃣ **Main Application: JPAPracticeApplication.java**
+
+```java
+package com.example.jpa;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class JPAPracticeApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(JPAPracticeApplication.class, args);
+    }
+}
+```
+
+---
+
+## 🔍 How It Demonstrates the Concepts
+
+| Feature               | Where It Appears                                        |
+| --------------------- | ------------------------------------------------------- |
+| Entity                | `User.java` with `@Entity`, `@Id`, `@GeneratedValue`    |
+| JPQL                  | `getByEmail()` in `UserRepository`                      |
+| Native Query          | `getByCityNative()` in `UserRepository`                 |
+| Named Query           | `@NamedQuery` in `User.java`                            |
+| Cascade / Transaction | `@Transactional` in `UserService.java`                  |
+| Pagination & Sorting  | `getUsersPaged()` in `UserService` and `UserController` |
+| Spring Data JPA       | `UserRepository` interface                              |
+
+
