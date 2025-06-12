@@ -1,0 +1,221 @@
+Open Closed Principle:(O)
+-------------------------
+
+   Software components should be closed for modification, but open for extension
+
+Cannot modify, but can extend
+
+close for modification:  New features getting added to the software componenet, should not have to modify existing code
+
+Open for extension - A software component should be extendable to add a new feature or to add a new behavior to it
+
+eg:implements interface.. not moidifying class
+
+easy adding of features, low cost for developing and testing
+
+---------------------------------------------------------------------------
+
+Liskov Substitutiton Pricniple:(L)
+----------------------------------
+
+
+class bird has fly method, class ostrich extends bird class but not fly .
+
+fly is unimplemented in ostrich. 
+
+Objects should be replacable with heir subtrypes without affecting the correctness of the program
+------------------------------------------------------------------------------------------------
+
+
+Of course! Let's go through each example with explanations.
+
+### 1. **Single Responsibility Principle (SRP)**
+Each class should focus on **only one responsibility**. In our example:
+- `ReportGenerator` is responsible **only for generating** a report.
+- `ReportSaver` is responsible **only for saving** the report.
+- The separation ensures that changes in one responsibility don’t affect others.
+
+```java
+class ReportGenerator {
+    String generateReport(String data) {
+        return "Report: " + data;
+    }
+}
+
+class ReportSaver {
+    void saveReport(String report) {
+        System.out.println("Saving report: " + report);
+    }
+}
+
+public class SRPExample {
+    public static void main(String[] args) {
+        ReportGenerator generator = new ReportGenerator();
+        String report = generator.generateReport("Sales Data");
+
+        ReportSaver saver = new ReportSaver();
+        saver.saveReport(report);
+    }
+}
+```
+
+Imagine later we want to save reports to a database instead of printing them. With SRP, we only modify `ReportSaver`, leaving `ReportGenerator` unchanged.
+
+---
+
+### 2. **Open-Closed Principle (OCP)**
+Objects should be **open for extension** but **closed for modification**. Our example:
+- `Discount` is an interface defining discount calculation.
+- `PercentageDiscount` and `FixedDiscount` extend it **without modifying existing code**.
+- If we need a new discount type (`MembershipDiscount`), we add a new class instead of altering existing ones.
+
+```java
+interface Discount {
+    double applyDiscount(double price);
+}
+
+class PercentageDiscount implements Discount {
+    public double applyDiscount(double price) {
+        return price * 0.9; // 10% discount
+    }
+}
+
+class FixedDiscount implements Discount {
+    public double applyDiscount(double price) {
+        return price - 10; // Flat $10 discount
+    }
+}
+
+public class OCPExample {
+    public static void main(String[] args) {
+        Discount percentageDiscount = new PercentageDiscount();
+        System.out.println(percentageDiscount.applyDiscount(100)); // 90.0
+
+        Discount fixedDiscount = new FixedDiscount();
+        System.out.println(fixedDiscount.applyDiscount(100)); // 90.0
+    }
+}
+```
+
+Without modifying `Discount`, we can extend the functionality by adding new discount types, keeping our code adaptable.
+
+---
+
+### 3. **Liskov Substitution Principle (LSP)**
+Derived classes must be **substitutable** for their base classes. Our example:
+- `Bird` defines a `fly()` method.
+- `Sparrow` correctly inherits `fly()`, but `Penguin` **overrides it unexpectedly**.
+- Penguins cannot fly, which **breaks the expectations** for objects of type `Bird`.
+
+```java
+class Bird {
+    String fly() {
+        return "Flying";
+    }
+}
+
+class Sparrow extends Bird { }
+
+class Penguin extends Bird {
+    @Override
+    String fly() {
+        return "Penguins cannot fly";
+    }
+}
+
+public class LSPExample {
+    static void observeFlying(Bird bird) {
+        System.out.println(bird.fly());
+    }
+
+    public static void main(String[] args) {
+        observeFlying(new Sparrow()); 
+        observeFlying(new Penguin()); // Violates LSP due to unexpected behavior
+    }
+}
+```
+
+If we expect **all birds to fly**, `Penguin` should not be a subclass of `Bird` since it **violates the behavior** expected from `Bird`.
+
+---
+
+### 4. **Interface Segregation Principle (ISP)**
+Clients should **not be forced to depend on unused methods**. Our example:
+- `Worker` defines a `work()` method, tailored for different types of workers.
+- `OfficeWorker` and `FactoryWorker` **only implement the relevant functionality**.
+- If we added a `Rest()` method to `Worker`, **every worker** would be forced to implement it—violating ISP.
+
+```java
+interface Worker {
+    void work();
+}
+
+class OfficeWorker implements Worker {
+    public void work() {
+        System.out.println("Working at desk");
+    }
+}
+
+class FactoryWorker implements Worker {
+    public void work() {
+        System.out.println("Working on assembly line");
+    }
+}
+
+public class ISPExample {
+    public static void main(String[] args) {
+        Worker officeWorker = new OfficeWorker();
+        officeWorker.work();
+
+        Worker factoryWorker = new FactoryWorker();
+        factoryWorker.work();
+    }
+}
+```
+
+Each worker **only implements what’s necessary** rather than forcing a generic interface with unused methods.
+
+---
+
+### 5. **Dependency Inversion Principle (DIP)**
+High-level modules should **not depend on low-level modules**. Our example:
+- Instead of `Notification` **directly depending** on `EmailService`, it depends on a general `MessageService`.
+- If we later introduce `SMSService`, we **don't need to modify `Notification`**—just add a new class.
+
+```java
+interface MessageService {
+    void sendMessage(String message);
+}
+
+class EmailService implements MessageService {
+    public void sendMessage(String message) {
+        System.out.println("Sending email: " + message);
+    }
+}
+
+class Notification {
+    private MessageService service;
+
+    Notification(MessageService service) {
+        this.service = service;
+    }
+
+    void notify(String message) {
+        service.sendMessage(message);
+    }
+}
+
+public class DIPExample {
+    public static void main(String[] args) {
+        MessageService emailService = new EmailService();
+        Notification notification = new Notification(emailService);
+        notification.notify("Hello, world!");
+    }
+}
+```
+
+By **depending on abstractions**, we make `Notification` flexible. If we later want an `SMSService`, we simply implement `MessageService` without changing `Notification`.
+
+-----------------------------------------------------------------------------------------------------------------
+
+
