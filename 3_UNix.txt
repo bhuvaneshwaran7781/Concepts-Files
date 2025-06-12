@@ -1,0 +1,518 @@
+CTS+2400699@LTIN620050 MINGW64 /etc
+$
+
+CTS+2400699@LTIN620050 MINGW64 /etc
+$ cd..
+bash: cd..: command not found
+c
+CTS+2400699@LTIN620050 MINGW64 /etc
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir parent
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ nano sam
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ nano sam
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm -r sam
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ touch sam.txt
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm -r sam.txt
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls
+ AppData/            'My Documents'@                                                                                'Saved Games'/
+'Application Data'@   NTUSER.DAT                                                                                     Searches/
+ Contacts/            NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TM.blf                                        SendTo@
+ Cookies@             NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000001.regtrans-ms  'Start Menu'@
+ Documents/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000002.regtrans-ms   Templates@
+ Downloads/           NetHood@                                                                                       Videos/
+ Favorites/           OneDrive/                                                                                      child/
+ Links/              'OneDrive - Cognizant'/                                                                         child_1/
+'Local Settings'@     PrintHood@                                                                                     color.pdf
+ Music/               Recent@                                                                                        eclipse-workspace/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd.'/'
+bash: cd./: No such file or directory
+c
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd..
+bash: cd..: command not found
+cd
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd./
+bash: cd./: No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ whoami
+CTS+2400699
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ pdw
+bash: pdw: command not found
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ pdw
+bash: pdw: command not found
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ pwd
+/c/Users/2400699
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd help
+bash: cd: help: No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ nano important
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls important -m
+important
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls -m important
+important
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir parent child nochild
+mkdir: cannot create directory ‘parent’: File exists
+mkdir: cannot create directory ‘child’: File exists
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rmdir parent
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir xchild nochild
+mkdir: cannot create directory ‘nochild’: File exists
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir nochild
+mkdir: cannot create directory ‘nochild’: File exists
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls
+ AppData/             Music/                                                                                         PrintHood@      ch
+'Application Data'@  'My Documents'@                                                                                 Recent@         co
+ Contacts/            NTUSER.DAT                                                                                    'Saved Games'/   ec
+ Cookies@             NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TM.blf                                        Searches/       fi
+ Documents/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000001.regtrans-ms   SendTo@         gr
+ Downloads/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000002.regtrans-ms  'Start Menu'@    im
+ Favorites/           NetHood@                                                                                       Templates@      ne
+ Links/               OneDrive/                                                                                      Videos/         no
+'Local Settings'@    'OneDrive - Cognizant'/                                                                         child/          no
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls -m
+AppData/, 'Application Data'@, Contacts/, Cookies@, Documents/, Downloads/, Favorites/, Links/, 'Local Settings'@, Music/, 'My Document
+NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TM.blf, NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer000000000000000000
+NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000002.regtrans-ms, NetHood@, OneDrive/, 'OneDrive - Cognizan
+'Saved Games'/, Searches/, SendTo@, 'Start Menu'@, Templates@, Videos/, child/, child_1/, color.pdf, eclipse-workspace/, file1/, grandc
+nochild/, non_directory/, ntuser.dat.LOG1, ntuser.dat.LOG2, ntuser.ini, todo.txt, xchild/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ pwd
+/c/Users/2400699
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ 2400699/child
+bash: 2400699/child: No such file or directory
+r
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm 2400699/child
+rm: cannot remove '2400699/child': No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm ../child_2
+rm: cannot remove '../child_2': No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm /mnt/c/users/2400699/color.pdf
+rm: cannot remove '/mnt/c/users/2400699/color.pdf': No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd ~
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls
+ AppData/             Music/                                                                                         PrintHood@      ch
+'Application Data'@  'My Documents'@                                                                                 Recent@         co
+ Contacts/            NTUSER.DAT                                                                                    'Saved Games'/   ec
+ Cookies@             NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TM.blf                                        Searches/       fi
+ Documents/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000001.regtrans-ms   SendTo@         gr
+ Downloads/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000002.regtrans-ms  'Start Menu'@    im
+ Favorites/           NetHood@                                                                                       Templates@      ne
+ Links/               OneDrive/                                                                                      Videos/         no
+'Local Settings'@    'OneDrive - Cognizant'/                                                                         child/          no
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir parent
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir -p parent/child/nochild
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm -d parent
+rm: cannot remove 'parent': Directory not empty
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm -r parent
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ lis
+bash: lis: command not found
+l
+CTS+2400699@LTIN620050 MINGW64 ~
+$ ls
+ AppData/             Music/                                                                                         PrintHood@      ch
+'Application Data'@  'My Documents'@                                                                                 Recent@         co
+ Contacts/            NTUSER.DAT                                                                                    'Saved Games'/   ec
+ Cookies@             NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TM.blf                                        Searches/       fi
+ Documents/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000001.regtrans-ms   SendTo@         gr
+ Downloads/           NTUSER.DAT{307b01ec-f369-11ee-a659-00e04c335f6a}.TMContainer00000000000000000002.regtrans-ms  'Start Menu'@    im
+ Favorites/           NetHood@                                                                                       Templates@      ne
+ Links/               OneDrive/                                                                                      Videos/         no
+'Local Settings'@    'OneDrive - Cognizant'/                                                                         child/          no
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ rm -r child
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir language
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mkdir sports
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ touch cricket football handball
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd language
+bash: cd: language: No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd language
+bash: cd: language: No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd ~
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd..
+bash: cd..: command not found
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd .
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd sports
+bash: cd: sports: No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd .
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd ..
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ ls
+cricket  football  handball
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ touch tamil english hindi telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls
+english  hindi  tamil  telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ nano speak
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd /
+
+CTS+2400699@LTIN620050 MINGW64 /
+$ mv language/tamil sports/
+mv: cannot stat 'language/tamil': No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 /
+$ mv language/tamil sports
+mv: cannot stat 'language/tamil': No such file or directory
+
+CTS+2400699@LTIN620050 MINGW64 /
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ language/tamil sports/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ ls
+cricket  football  handball
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ pwd
+/c/Users/2400699/sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mv sports/cricket language/tamil
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls
+english  hindi  speak  tamil  telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ ls
+football  handball
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ touch cricket.txt
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$  sports/cricket.txt language/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mv sports/cricket.txt language/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls
+cricket.txt  english  hindi  speak  tamil  telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd sports
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ touch cricket
+
+CTS+2400699@LTIN620050 MINGW64 ~/sports
+$ cd
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ mv sports/cricket language/
+
+CTS+2400699@LTIN620050 MINGW64 ~
+$ cd language
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls
+cricket  cricket.txt  english  hindi  speak  tamil  telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ uname -a
+MINGW64_NT-10.0-22631 LTIN620050 3.5.7-463ebcdc.x86_64 2025-03-03 17:26 UTC x86_64 Msys
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ whoami
+CTS+2400699
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ whereis
+bash: whereis: command not found
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ touch dhoni'
+> clear
+> ^C
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ touch dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ vi dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls
+cricket  cricket.txt  dhoni  english  hindi  speak  tamil  telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cat dhoni
+captian cool
+csk player
+wicket keeper
+no 7
+
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ chmod g+w dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ cat dhoni
+captian cool
+csk player
+wicket keeper
+no 7
+
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ls -l
+total 2
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 15:15 cricket
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 15:11 cricket.txt
+-rw-r--r-- 1 CTS+2400699 4096 44 Mar 28 15:21 dhoni
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 14:55 english
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 14:55 hindi
+-rw-r--r-- 1 CTS+2400699 4096 22 Mar 28 14:58 speak
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 14:48 tamil
+-rw-r--r-- 1 CTS+2400699 4096  0 Mar 28 14:55 telengu
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ sort dhoni
+
+captian cool
+csk player
+no 7
+wicket keeper
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ sort -r dhoni
+wicket keeper
+no 7
+csk player
+captian cool
+
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ rev dhoni
+bash: rev: command not found
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ touch kholi
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ touch -a kholi
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ stat kholi
+  File: kholi
+  Size: 0               Blocks: 0          IO Block: 65536  regular empty file
+Device: 2e8c3a07h/780941831d    Inode: 13229323905567714  Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 4096/CTS+2400699)   Gid: ( 4096/ UNKNOWN)
+Access: 2025-03-28 15:28:28.675786800 +0530
+Modify: 2025-03-28 15:28:15.850601600 +0530
+Change: 2025-03-28 15:28:28.667044400 +0530
+ Birth: 2025-03-28 15:28:15.843567300 +0530
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ stat kholi
+  File: kholi
+  Size: 0               Blocks: 0          IO Block: 65536  regular empty file
+Device: 2e8c3a07h/780941831d    Inode: 13229323905567714  Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 4096/CTS+2400699)   Gid: ( 4096/ UNKNOWN)
+Access: 2025-03-28 15:28:28.675786800 +0530
+Modify: 2025-03-28 15:28:15.850601600 +0530
+Change: 2025-03-28 15:28:28.667044400 +0530
+ Birth: 2025-03-28 15:28:15.843567300 +0530
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ stat dhoni
+  File: dhoni
+  Size: 44              Blocks: 1          IO Block: 65536  regular file
+Device: 2e8c3a07h/780941831d    Inode: 70931694131118651  Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 4096/CTS+2400699)   Gid: ( 4096/ UNKNOWN)
+Access: 2025-03-28 15:27:13.986745800 +0530
+Modify: 2025-03-28 15:21:39.684973600 +0530
+Change: 2025-03-28 15:21:39.684973600 +0530
+ Birth: 2025-03-28 15:19:34.819727700 +0530
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ locate "c" dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ locate c dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ locate c
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ grep "c" dhoni
+captian cool
+csk player
+wicket keeper
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ grep -l "c" dhoni
+dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ grep -v "c" dhoni
+no 7
+
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ du -h
+6.0K    .
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ wc -w dhoni
+8 dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ wc -l dhoni
+5 dhoni
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$ ^C
+
+CTS+2400699@LTIN620050 MINGW64 ~/language
+$
