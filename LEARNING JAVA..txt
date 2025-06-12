@@ -1,0 +1,177 @@
+LEARNING JAVA.
+
+#COLLECTIONS: 
+
+
+      The Collection API in Java is a framework that provides a set of interfaces and classes for working with groups of objects. It offers a unified way to store, retrieve, and manipulate collections of data, such as lists, sets, and maps. The API is designed to be flexible and efficient, allowing developers to choose the most appropriate collection type for their specific needs.
+
+ITERABLE -> COLLECTION ->1) LIST  ->*ARRAYLIST.
+                                    *LINKEDLIST.
+                                    
+
+                         2) QUEUE ->*PRIORITYQUEUE.
+                                    
+
+                         3) SET   ->*HASHSET.
+                                    *LINKED HASHSET.
+
+#GENERIC:
+
+
+Generics means parameterized types. The idea is to allow a type (like Integer, String, etc., or user-defined types) to be a parameter to methods, classes, and interfaces. Generics in Java allow us to create classes, interfaces, and methods where the type of the data is specified as a parameter.
+
+
+#PRIMITIVE DATA TYPE && NON-PRIMITIVE DATA TYPE:
+
+
+
+We can sort the array by using "Sort method" & "Variable" in Primitive Data Type.
+
+We can achieve this "Sort Method" by using Object[] calling in Non-Primitive Data Type.
+
+Here the Method is same but the passed arguments are different, it accepts primitive as well as non-Primitive also. So this called "Method Overloading".
+
+
+#CURSOR 
+
+
+Useful for Retrieving Object one by one from Collection classes.It is also a interface .
+
+a) ForEach                      ->One Directional. No modify.
+1) Enumeration,(Stack, Vector),  
+2) Iterator,                    ->Single Direction, Can be remove the element.
+3) List Iterator,               ->Bidirectional, Can be remove and Add and also Replace.
+4) Spliterator.                 ->Used for Traversing and Partitioning elements of Sources.
+
+"Iterator" differs from Enumerations. Iterator can remove the element of the list. It is a "single direction" Cursor(hasNext()).
+
+"ListIterator" has both(hasNext())&(hasPrevious()), It is a "Biderictional Cursor".
+
+"Spliterator" 
+
+
+#HASHSET              -> Constant Execute Time.
+
+1)HashSet             ->Remove Duplicate Elements.
+2)LinkedHashSet       ->Remove Duplicate As well Order based on Insertion.(allows different data Type Objects).
+
+How it removes the duplicate element in the sense mean, by using Hashing Algorithm-(HashCode).
+
+SortedSet()                    |
+      |                        |
+      |___NavigableSet         |Remove duplicate , Sort the element As well.(only allows similar objects)
+                |              |
+                |__TreeSet()   |
+
+
+
+#HASHMAP
+
+         1)Linked HashMap
+         2)SortedMap()
+                      |
+                      |___TreeMap();d
+
+Not a sub interface of collection interface.
+Representing group of Objects -->Key-Value Pair.
+No duplicate Keys are allowed.
+Duplicate values or Allowed.
+
+--->Key-Value Pair is known as "Entry". 
+
+
+#PROPERTIES
+
+       * Used in real Projects.
+       * Properties is also type of Class.
+       * By using "File Input Stream" we can read the input from non-java       
+         file and give it to File Input Stream, and it also has the 
+         properties file to access the input.
+
+
+#GENERICS
+
+      Variables--->Array--->Collections
+                     |             |
+                   __|             |__
+                  |                   |
+       It has type safety           But Collections doesn't has Type Safety.
+
+                                     *So for that reason "GENERIC" is arrived.
+
+
+
+#JAVA FEATURES
+
+         1) LAMBDA EXPRESSION:
+                                  *It is a Anonymous Functions.
+
+                                  *()->{           -->without argument.
+                                          }
+
+                                  *(o1 , o2)->{    -->with argument.
+                                                 }
+
+                              
+         2)Functional Interface: An interface with only one abstract method. Apart from this abstract  method, we can have any number of default and static method.
+
+
+
+         * We can call the static method in the interface by using interface reference in the implements class.    lambda function used in abstract method but also no need to used in static method.
+
+   
+
+#REQUISITION:
+         1)LAMBDA EXPRESSION,
+         2)PREDICATE,
+         3)FUNCTION.
+
+
+#PREDICATE
+
+        1)Predicate is function with only one argument and returns a Boolean value.
+
+
+
+#STREAM
+
+        1)Stream of objects (or) Stream of Data.
+        2)Reducing the time Consumption, and Better Performance.
+
+
+        * Internal Iteration, Sequential Processing, Code Readability.
+
+
+        COLLECTION OF DATA --------> INTERMEDIATE OPERATIONS ----------> TERMINAL OPERATIONS.
+                                               |                                 |
+                                               |                                 |
+                                        filter(), map().                      for each
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
