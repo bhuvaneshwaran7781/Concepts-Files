@@ -1,0 +1,105 @@
+What is Git?
+Git is a distributed version control system (DVCS) that allows developers to track and manage changes to their codebase. Unlike traditional version control systems, Git enables multiple developers to work on a project simultaneously without interfering with each other’s work.
+
+
+Git was developed by Linus Torvalds in 2005 for Linux kernel development. 
+Git is 2.45.1 is the Latest Versions of GIT, released on May 2024. 
+
+
+
+
+Three stages of git:  
+
+  1)working directory 
+  2)staging area(precommit area)
+  3)commit- git reporsity
+
+git commands;
+  1)git init - initialize a new git reposisty
+  2)git --version - returns version
+  3)git config --global user.name "Balaji"
+  4)cloning -  git clone <copiedurl>(remote to local)
+  5)status - git status - displays current status of working directory which may be untracked,staged,commited
+  6)git add - add all changes and prepare for commit
+  7)git commit - save changes in local repo
+  8)push -  upload local to remote repositoty - git push origin <branchname>
+  9)git pull: fetches changes and merges them into your current branch
+  10)git fetch: fetch changes but not merge them . we need to merge them using git merge
+  11)GIT merge:Source Branch: feature-branch
+       Target Branch: master
+       When you run:
+
+       git merge feature-branch
+     Git will:
+
+       Fetch Changes: Get the latest changes from feature-branch.
+      Apply Changes: Integrate these changes into master
+
+  12)deleting a branch - git branch -d <branch _name>
+  13)-a --> Stages all modified and deleted files: It stages all changes to tracked files (files that have been previously committed).
+Commits the changes: It then commits these changes with the provided commit message.
+
+  14)rebase - Git Rebase is a command used to move or combine a sequence of     commits to a new base commit. It allows you to apply the changes from one              branch onto another by rewriting the commit history. Unlike Git Merge, which combines branches while preserving their histories, Git Rebase “replays” commits from one branch on top of another, resulting in a cleaner, linear history.
+
+  Syntax:
+
+git checkout <feature-branch>
+git rebase <base-branch>
+<feature-branch> is the branch with the changes you want to rebase.
+<base-branch> is the branch you want to rebase your changes onto, typically main or master.
+
+  15)git stash:Git Stash is a Git feature that temporarily saves changes in your working directory that haven’t been committed yet.
+
+
+ 16)git tagging: Git tagging is a way to mark specific points in your repository’s history as important. Typically, tags are used to mark release points (e.g., v1.0, v2.0).
+
+Types of Tags:
+Lightweight Tags: These are simple pointers to a specific commit.
+Annotated Tags: These are stored as full objects in the Git database and contain additional information such as the tagger's name, email, date, and a message.
+Creating Tags:
+Lightweight Tag:
+
+git tag <tagname>
+Example:
+
+git tag v1.0
+Annotated Tag:
+
+git tag -a <tagname> -m "Tag message"
+Example:
+
+git tag -a v1.0 -m "Release version 1.0"
+Listing Tags:
+List all tags:
+git tag
+Pushing Tags to Remote:
+Push a specific tag:
+
+git push origin <tagname>
+Example:
+
+git push origin v1.0
+Push all tags:
+
+git push --tags
+Deleting Tags:
+Delete a local tag:
+
+git tag -d <tagname>
+Example:
+
+git tag -d v1.0
+Delete a remote tag:
+
+git push origin --delete tag <tagname>
+Example:
+
+git push origin --delete tag v1.0
+Example Workflow:
+Create an annotated tag:
+
+git tag -a v1.0 -m "Release version 1.0"
+Push the tag to the remote repository:
+
+git push origin v1.0
+     
